@@ -1,0 +1,22 @@
+<div class="col" data-aos="zoom-in-right" >
+    <div class="panel">
+        <h2>{{ component.title }}</h2>
+        <article class="content">
+            {% for field in component.fields %}
+                    <div class="row row-cols-1 d-xl-flex justify-content-end" style="margin-bottom: 20px;">
+                        <div class="col-11">
+                            <div class="d-inline-flex d-xl-flex service-wrapper">
+                                <div class="service-text">
+                                    <h5 style="font-weight:700;">{{ field.data['title'] }}</h5>
+                                    <p>{{field.data['desc']}}</p>
+                                </div>
+                                <!-- Start: icon -->
+                                <div class="icon-wrapper service-icon"><i class="fa fa-{{field.data['icon']}}"></i></div>
+                                <!-- End: icon -->
+                            </div>
+                        </div>
+                    </div>
+            {% endfor %}
+        </article>
+    </div>
+</div>

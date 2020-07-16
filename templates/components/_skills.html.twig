@@ -1,0 +1,62 @@
+<div class="col">
+    <div data-aos="zoom-in-right"  id="coding" class="panel" data-aos-id="super-duper">
+        <h2>{{ component.title }}</h2>
+        <article class="content skills" data-aos-id="super-duper">
+            <!-- Start: Primary skills -->
+                {% set cnt = 0 %}
+                {% for field in component.fields %}
+                    {% if field.data['topskill'] is defined %}
+                        {% set cnt = cnt + 1 %}
+
+                        {% if cnt ==  1  %}
+                                <div class="row row-cols-3">
+                        {% endif %}
+
+                        {% if cnt == 4 %}
+                                <div class="row row-cols-4 mini collapse" id="miniskills">
+                        {% endif %}
+
+                        <div class="col text-center d-xl-flex align-self-center justify-content-xl-center align-items-xl-center">
+                                    <!-- Start: skill -->
+                                    <div class="skill">
+                                        <!-- Start: circle -->
+                                        <div class="skill-circle">
+                                            <div class="water" data-level="{{ field.data['level'] }}"></div>
+                                        </div>
+                                        <span style="text-transform: uppercase">{{ field.data['title'] }}</span>
+                                        <span class="helptext">{{ field.data['experience'] }}</span>
+                                        <!-- End: text -->
+                                    </div>
+                                    <!-- End: skill -->
+                        </div>
+
+
+                        {% if cnt ==  3  %}
+                                </div>
+                        {% endif %}
+
+                    {% endif %}
+                {% endfor %}
+
+                {% if component.fields|length > 3 %}
+                            </div>
+                {% endif %}
+
+                <div class="col-12 collapse"  id="miniskills" style="margin-top:40px;">
+                    <h5 style="font-family: 'Archivo Black', sans-serif;">Other Skills</h5>
+                    <ul class="knowledge-list row">
+                        {% for field in component.fields %}
+                            {% if field.data['topskill'] is not defined %}
+                            <li class="col-6">{{ field.data['title'] }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                <!-- End: More -->
+            <!-- End: mini skills -->
+            {% if component.fields|length > 3 %}
+            <div class="row justify-content-center align-items-center" data-toggle="collapse" data-target="#miniskills" aria-expanded="false" aria-controls="miniskills"><button class="btn btn-primary text-monospace buttoncolor" type="button">See more</button></div>
+            {% endif %}
+        </article>
+    </div>
+</div>

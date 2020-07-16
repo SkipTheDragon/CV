@@ -1,0 +1,84 @@
+<!-- Start: Github Statistics -->
+<div class="col-6 align-self-center stats" data-aos="zoom-in" >
+    <div class="panel" style="min-height: 215px;">
+        <article class="d-xl-flex align-items-xl-center content">
+            <h2 class="text-uppercase text-left">{{ component.title }}</h2>
+        </article>
+    </div>
+</div>
+<!-- End: Github Statistics -->
+<!-- Start: Github Statistics Commits -->
+<div class="col-6 stats" data-aos="zoom-in">
+    <div class="panel" style="min-height: 215px;">
+        <article class="d-xl-flex content">
+            <h2><span class="bluecolor-text" id="commits">0</span>&nbsp;<br>commits</h2>
+        </article>
+    </div>
+</div>
+<!-- End: Github Statistics Commits -->
+<!-- Start: Github Statistics Repostories -->
+<div class="col-6 stats" data-aos="zoom-in">
+    <div class="panel" style="min-height: 215px;">
+        <article class="d-xl-flex align-items-xl-center content">
+            <h2>in&nbsp;<span class="bluecolor-text" id="repos">0</span>&nbsp;<br>repostories</h2>
+        </article>
+    </div>
+</div>
+<!-- End: Github Statistics Repostories -->
+<!-- Start: Contactme -->
+<div class="col-6" data-aos="zoom-in">
+    <div class="panel">
+        <article class="content aboutme">
+            <div class="row">
+                <div class="col d-flex" style="margin-bottom:10px;">
+                    {% for field in component.fields %}
+                    <a class="social-link" href="{{ field.data['link'] }}" style="margin: 0px 5px;"><i class="fa fa-{{ field.data['icon'] }} social-link-icon"></i> <div class="social-link-effect"></div></a>
+                    {% endfor %}
+
+                </div>
+            </div>
+            <h6 class="text-center" style="font-family: 'Archivo Black', sans-serif;">OR</h6>
+            <div class="row row-cols-2">
+                {% for field in component.fields %}
+                    {% for key,data in field.data %}
+                    {% if key == 'email' %}
+                <div class="col-12 d-xl-flex justify-content-xl-center align-items-xl-center"><a href="mailto: {{ field.data['email'] }}"><button class="btn btn-primary text-monospace buttoncolor" type="button">Email me</button></a></div>
+                    {% endif %}
+                    {% endfor %}
+                {% endfor %}
+
+            </div>
+        </article>
+    </div>
+</div>
+<!-- End: Contactme -->
+
+<script>
+    async function getEvents(username,filter,resource_type = 'users') {
+        const url = `https://api.github.com/${resource_type}/${username}/${filter}`
+        console.log(url);
+        let body = await fetch(url).then(res => res.json())
+        return body
+    }
+
+    (async () => {
+        const repos = await getEvents('SkipTheDragon', 'repos');
+        var reposNumber = repos.length;
+        var commitsTotal = 0;
+        let count = 0;
+        document.getElementById('repos').innerText = reposNumber;
+
+        for (const ignored of repos) {
+            count += 1;
+            const commits = await getEvents('SkipTheDragon',ignored.name + '/commits', 'repos');
+            if (commits instanceof Array) {
+                let com = commits[count];
+                if (com.commit.author.name == 'Tudorache Leonard Valentin')
+                commitsTotal += commits.length;
+                document.getElementById('commits').innerText = commitsTotal;
+            }
+        }
+
+
+    })()
+</script>

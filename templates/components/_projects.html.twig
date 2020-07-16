@@ -1,0 +1,58 @@
+<div class="row" data-aos="zoom-in-up">
+    <div class="col">
+        <div class="panel">
+            <!-- Start: Header -->
+            <div class="row align-items-center">
+                <div class="col">
+                    <h2 class="d-flex justify-content-xl-start" style="margin-bottom:25px;">Projects</h2>
+                </div>
+{#                <div class="col">#}
+{#                    <ul class="list-inline d-xl-flex justify-content-xl-end project-categories">#}
+{#                        <li class="list-inline-item active">Item 1</li>#}
+{#                        <li class="list-inline-item">Item 2</li>#}
+{#                        <li class="list-inline-item">Item 3</li>#}
+{#                        <li class="list-inline-item">Item 4</li>#}
+{#                    </ul>#}
+{#                </div>#}
+            </div>
+            <!-- End: Header -->
+            <article>
+                <div class="row row-cols-4 row-cols-sm-1 row-cols-md-2 row-cols-lg-4 row-cols-xl-4">
+                    {%  set a = 0 %}
+                    {% for field in component.fields %}
+                        {% if asd is not defined %}
+                            {%  set a = a + 1 %}
+                        {% endif %}
+                        {% if a <= 3 %}
+
+                        {% set field = field.data %}
+                    <div class="col" style="margin-bottom: 20px;">
+                        <div class="text-left project">
+                            <img src="../uploads/{{ field.image }}">
+                            <a href="{{ field.link }}">
+                            <div class="project-hover">
+                                <h4 class="project-text">{{ field.title }}</h4>
+                                <span class="project-text">{{ field.description }}</span>
+                            </div>
+                            </a>
+
+                        </div>
+                    </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if asd is not defined %}
+                    <div class="col align-self-center">
+                        <a href="{{ path('home_projects') }}" style="position: relative;top: -10px;">
+
+                        <div class="text-uppercase text-center d-xl-flex flex-column justify-content-xl-center align-items-xl-center project project-seemore" style="background-image: url('assets/img/SOmething.png'); background-size: cover;"><i class="fas fa-plus"></i>
+                            <h4 class="text-monospace">More</h4>
+                        </div>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </article>
+        </div>
+    </div>
+</div>

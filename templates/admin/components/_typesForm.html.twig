@@ -1,0 +1,25 @@
+<div class="panel">
+    <h2>Create Type</h2>
+    <article class="content" id="type">
+
+
+        <form method="post" id="form" enctype="multipart/form-data">
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col">
+                        <label class="col-form-label w-100">Template Name<input placeholder="Component type name"  type="text" name="name" id="inputTypeName" class="form-control" required autofocus></label></div>
+                </div>
+                <div class="form-row">
+                    <div class="col"><label class="col-form-label w-100">Fields<input placeholder="(separated by ',') "type="text" name="fields" id="inputFields" class="form-control" required></label></div>
+                </div>
+              </div>
+
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('profile_change') }}"
+            >
+            <div class="form-row">
+                <div class="col" id="button"><button class="btn btn-primary btn-block" type="button" onclick="buildForm()">Start</button></div>
+            </div>
+</form>
+</article>
+</div>

@@ -1,0 +1,34 @@
+<div class="col">
+    <div class="panel" data-aos="zoom-in-right" >
+        <h2>{{ component.title }}</h2>
+        <article class="content aboutme">
+
+            {% for field in component.fields %}
+            <div class="row row-cols-2">
+                {% set a = 0 %}
+                {% for key,data in field.data %}
+                    {% set a = a + 1 %}
+
+                    {% if key == 'about' and a == 1 %}
+                        <div class="col-12" style="text-transform: capitalize">
+                            <p>{{ data }} <br></p>
+                        </div>
+                    {% endif %}
+                    {% if key == 'title' %}
+                        <div class="col-3" style="text-transform: capitalize">
+                            <h6>{{ data }}:</h6>
+                        </div>
+                    {%  endif %}
+
+                    {% if key == 'desc' %}
+                        <div class="col-9" style="padding:0;">
+                            {{ data }}
+                        </div>
+                    {% endif %}
+
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </article>
+    </div>
+</div>

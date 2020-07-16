@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+{% block body %}
+    <body>
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <ul class="list-group list-group-horizontal text-monospace tab">
+                        <li class="list-group-item  tab-button"><a href="/admin"><span>Dashboard</span></a></li>
+                        <li class="list-group-item {% if slug == 'Components'%} active {% endif %}"><a href="/admin/manage/components"><span>Components</span></a></li>
+                        <li class="list-group-item {% if slug == 'Types'%} active {% endif %}"><a href="/admin/manage/types"><span>Types</span></a></li>
+                    </ul>
+                </div>
+                <div class="col text-right align-self-center">
+                    <button class="btn btn-link downloadbtn" type="button">Back to profile</button>
+                    <button class="btn btn-primary text-monospace downloadbtn" type="button" data-toggle="modal" data-target="#create{{ slug }}">Create New</button>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            {{ include('admin/components/_' ~ slug ~ 'Form.html.twig',{'slug': slug, 'object': object}) }}
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Confirmation
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this item ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger btn-ok">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+{% endblock %}

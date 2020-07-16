@@ -1,0 +1,87 @@
+{% if object is not defined %} {# create #}
+<h2>Field #{{ page + 1}}</h2>
+    {% set continue = false %}
+{% for title, data in type.rules %}
+    {% if page >= 1 and data['settings']['unique'] is defined  %}
+        {% set continue = true %}
+    {% endif %}
+
+    {% if not continue %}
+        {% if data['type'] != 'textarea' %}
+            <div class="form-row">
+                <div class="col">
+                    <label class="col-form-label w-100" style="text-transform: capitalize">
+                        {{ title }}
+                        <input placeholder="{{ title }}"  type="{{ data['type'] }}" name="fields[{{ page }}][data][{{ title }}]" class="form-control" autofocus>
+                    </label>
+                </div>
+            </div>
+        {% else %}
+            <div class="form-row">
+                <div class="col">
+                    <label class="col-form-label w-100" style="text-transform: capitalize">
+                        {{ title }}
+                        <textarea rows="4" name="fields[{{ page }}][data][{{ title }}]"  class="form-control" cols="50"></textarea>
+                    </label>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {% if continue %}
+        {% set continue = false %}
+    {% endif %}
+{% endfor %}
+{% else %} {# update #}
+    {% set index = 0 %}
+    {% set continue = false %}
+    {% for field in object.fields %} {# loop over fields #}
+        <button type="button" class="btn btn-primary float-right" data-href="/admin/ajax/delete/Field/{{ field.id }}" data-toggle="modal" data-target="#confirm-delete"> Remove Field </button>
+        <h2>Field #{% set index = index + 1 %} {{ index }}</h2>
+        <input value="{{ field.id }}" type="text" hidden name="fields[{{index}}][fieldID]" class="form-control" autofocus>
+        {% for key, type in field.component.type.rules %} {# loop over fields rules #}
+
+            {% if field.data[key] is defined %} {# check if field is filled #}
+                {% set data = field.data[key] %}
+            {% endif %}
+
+            {% if type['settings']['unique'] is defined and index > 1 %} {# check if we have unique fields so we donmt print them more than once #}
+                {% set continue = true %}
+            {% endif %}
+
+            {% set type = type['type'] %}
+
+            {% if not continue %}
+                {% if type != 'textarea' %}
+                    <div class="form-row">
+                        <div class="col">
+                            <label class="col-form-label w-100" style="text-transform: capitalize">
+                                {{ key }}
+                                <input placeholder="{{ key }}"
+                                       value="{{ data ?? '' }}"
+                                        {{ data == 'on' ? 'checked' : '' }}
+                                       type="{{ type }}"
+                                       name="fields[{{ index }}][data][{{ key }}]" class="form-control" autofocus>
+                            </label>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="form-row">
+                        <div class="col">
+                            <label class="col-form-label w-100" style="text-transform: capitalize">
+                                {{ key }}
+                                <textarea rows="4"  name="fields[{{ index }}][data][{{ key }}]"  class="form-control" cols="50"> {{ data ?? '' }}</textarea>
+                            </label>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+
+            {% if continue %}
+                {% set continue = false %}
+            {% endif %}
+
+        {% endfor %}
+    {% endfor %}
+
+{% endif %}

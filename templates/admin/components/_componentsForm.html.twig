@@ -1,0 +1,77 @@
+{% set locations = ['left','right', 'both sides'] %}
+
+   <div class="panel">
+        <h2>{{ object is defined ? 'Update' : 'Create' }}  Component</h2>
+        <article class="content" id="type">
+            {% set id = object is defined ? object.id : null %}
+            <form action="{{ path('admin_manage_entities', {'entity': 'Component', 'action': action ?? 'add', 'id': id}) }}" method="post" id="componentForm" enctype="multipart/form-data">
+                <div id="addComponent" class="form-group">
+                    <div class="form-row">
+                        <div class="col">
+                            <label class="col-form-label w-100">
+                                Title
+                                <input placeholder="Component type name" value="{{ object.title ?? '' }}"  type="text" name="name" class="form-control" required autofocus>
+                            </label>
+
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <label class="col-form-label w-100">
+                                Location
+                                <select name="location" class="form-control">
+                                    {% for location in locations %}
+                                    <option
+                                            {% if object is defined and object.location == location %} selected {% endif %} value="{{ location  }}">
+                                            {{ location }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <label class="col-form-label w-100">
+                                Position No.
+                                <input placeholder="Component type name"  value="{{ object.position ?? '' }}" type="number" name="position" class="form-control" required autofocus>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <label class="col-form-label w-100">
+                                Select an type
+                                <select onchange="getTypes(this,0,1)" name="types" id="select" class="form-control">
+                                    {% if object is not defined %}
+                                        <option value="" selected="selected" disabled>Choose here</option>
+                                    {% endif %}
+                                    {% for type in types %}
+                                        <option {% if object is defined and type.name == object.type.name %}
+                                            selected
+                                        {% endif %}
+                                                value="{{ type.name ?? '' }}">
+                                            {{ type.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div id="ajaxChange">
+                    {% if object is defined %}
+                        {{ include('admin/components/_fieldForm.html.twig', {'object': object}) }}
+                    {% endif %}
+                </div>
+                <script>
+                    let addCount = {{ object.fields is defined ? object.fields|length : 0  }};
+                </script>
+
+                <div class="form-row">
+                    <div class="col" id="button"><button class="btn btn-primary btn-block" type="submit"> {{ object is defined ? 'Update' : 'Create' }} </button></div>
+                    <div class="col" ><button type="button"  class="btn btn-link btn-block" onclick="getTypes(document.getElementById('select'), addCount+=1)">Add another field</button></div>
+                </div>
+            </form>
+        </article>
+    </div>
+

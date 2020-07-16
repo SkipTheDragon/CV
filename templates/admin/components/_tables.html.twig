@@ -1,0 +1,85 @@
+{% if table_data[0] is defined %}
+<div class="bootstrap_datatables">
+
+    <div class="row py-5">
+        <div class="col-lg-10 mx-auto">
+            <div class="card rounded shadow border-0">
+                <div class="card-body p-5 bg-white rounded">
+                    <h2>Manage {{ class(table_data[0]) }}s</h2>
+                    <div class="table-responsive">
+                        <table id="example" style="width:100%" class="table table-striped table-bordered">
+                            <thead>
+                            {% if class(table_data[0]) == 'Component' %}
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Title</th>
+                                    <th>Type</th>
+                                    <th>Location</th>
+                                    <th>Position</th>
+                                    <th>Manage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for data in table_data %}
+                            <tr>
+                                <td>{{ data.id }}</td>
+                                <td>{{ data.title }}</td>
+                                <td>{{ data.type.name }}</td>
+                                <td>{{ data.location }}</td>
+                                <td>{{ data.position }}</td>
+                                <td>
+                                    <a href="#" data-href="/admin/ajax/delete/Component/{{ data.id }}" data-toggle="modal" data-target="#confirm-delete"> <i class="fa fa-trash" style="color: #ff0000;" aria-hidden="true" ></i></a>
+                                    <a href="/admin/ajax/edit/Component/{{ data.id }}"> <i class="fa fa-pencil-square-o" style="color: green;" aria-hidden="true" ></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Rules</th>
+                                    <th>Manage</th>
+                                </tr>
+                                </thead>
+                            <tbody>
+                            {% for data in table_data %}
+                                <tr>
+                                    <td>{{ data.id }}</td>
+                                    <td>{{ data.name }}</td>
+                                    <td>{{ data.rules|json_encode(constant('JSON_PRETTY_PRINT')) }}</td>
+                                    <td>
+                                            <a href="#" data-href="/admin/ajax/delete/Type/{{ data.id }}" data-toggle="modal" data-target="#confirm-delete"> <i class="fa fa-trash" style="color: #ff0000;" aria-hidden="true" ></i>
+                                            </a>
+{#                                            <a href="/admin/ajax/edit/Type/{{ data.id }}"> <i class="fa fa-pencil-square-o" style="color: green;" aria-hidden="true" ></i></a>#}
+                                    </td>
+
+
+                                </tr>
+                            {% endfor %}
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Confirmation
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this item ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger btn-ok">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

@@ -1,0 +1,28 @@
+<div class="panel">
+    <h2>Profile</h2>
+    <article class="content">
+
+
+        <form method="post" id="profileForm" action="{{ path('admin_update_profile') }}" enctype="multipart/form-data">
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col"><label class="col-form-label w-100">Name<input placeholder="Username"  value='{{ profile.name }}' type="text" name="name" id="inputProfileR" class="form-control" required autofocus></label></div>
+                </div>
+                <div class="form-row">
+                    <div class="col"><label class="col-form-label w-100">Position<input placeholder="Position" value='{{ profile.role }}' type="text" name="role" id="inputProfileR" class="form-control" required></label></div>
+                </div>
+                <div class="form-row">
+                    <div class="col"><label class="col-form-label w-100">Your favourite quote <textarea placeholder="Citat" name="citat" class="form-control" required rows="4" id="inputProfileR" cols="50">{{ profile.quotation }}</textarea></label></div>
+                </div>
+                <div class="col"><label class="col-form-label w-100">Profile Image<input type="file" name="image" value="{{ profile.profileImg }}" id="inputProfileR" class="form-control"></label></div>
+
+                <div class="col"><label class="col-form-label w-100">CV<input type="file" name="cv" value="{{ profile.cv }}" id="inputProfileR" class="form-control"></label></div>
+            </div>
+            <input type="hidden" id="inputProfileR" name="_csrf_token" value="{{ csrf_token('profile_change') }}">
+            <div class="form-row">
+                <div class="col">
+                    <button class="btn btn-primary btn-block" type="submit">Update</button></div>
+            </div>
+</form>
+</article>
+</div>

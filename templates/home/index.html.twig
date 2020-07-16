@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<header class="bounce animated" style="height: 500px;padding:100px 0;">
+        <div class="container text-center justify-content-sm-center align-items-sm-center container-space-elements align-self-center d-flex">
+            <div>
+                <!-- Start: Avatar -->
+                <div class="avatar" style="margin:0 auto;"><img src="{{ profile.profileImg }}"></div>
+                <!-- End: Avatar -->
+                <h1 style="font-family: 'Archivo Black', sans-serif;font-size:35px;margin-top:25px;">{{ profile.name }}</h1>
+                <h4 class="text-uppercase" style="font-size: 13px;font-weight: 800;letter-spacing: 1.2px;">{{ profile.role }}</h4>
+                <p class="aboutme"><cite>{{ profile.quotation }}</cite></p>
+            </div>
+        </div>
+    </header>
+    <!-- Start: Header -->
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-group list-group-horizontal text-monospace tab">
+                    <li class="list-group-item active tab-button"><a href="{{ path('home') }}"><span>Resume</span></a></li>
+                    <li class="list-group-item"><a href="{{ path('home_projects') }}"><span>Projects</span></a></li>
+                </ul>
+            </div>
+            <div class="col text-right align-self-center">
+                {% if app.user %}<button class="btn btn-link downloadbtn" type="button"><a  href="{{ path('admin') }}">Edit profile</a></button>{% endif %}
+                <button class="btn btn-primary text-monospace downloadbtn" type="button"><a href="{{ profile.cv }}" style="color:white">Download Resume</a></button></div>
+        </div>
+    </div>
+    <!-- End: Header -->
+    <div class="container content">
+        {% if asd is defined %}
+            {%for component in profile.components|sort((a, b) => a.position <=> b.position) %}
+                {% if component.location == "both sides" %}
+                    {% include 'components/_projects.html.twig' with {'component': component, 'asd': asd} %}
+                {% endif %}
+            {% endfor %}
+        {% else %}
+
+        <div class="row row-cols-2 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2">
+            <div class="col">
+                <div class="row row-cols-1">
+                    {%for component in profile.components|sort((a, b) => a.position <=> b.position)  %}
+                        {% if component.location == "left" %}
+                            {% include 'components/_' ~ component.type.name ~ '.html.twig' with {'component': component} %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="row row-cols-1">
+                    {%for component in profile.components|sort((a, b) => a.position <=> b.position) %}
+                        {% if component.location == "right" %}
+                            {% include 'components/_' ~ component.type.name ~ '.html.twig' with {'component': component} %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+            {%for component in profile.components|sort((a, b) => a.position <=> b.position) %}
+                {% if component.location == "both sides" %}
+                    {% include 'components/_' ~ component.type.name ~ '.html.twig' with {'component': component} %}
+                {% endif %}
+            {% endfor %}
+            </div>
+
+        {% endif %}
+
+    <footer class="text-center" style="padding-bottom: 3%;"><button class="btn btn-primary text-monospace go-top buttoncolor" type="button">Back to top</button></footer>
+</body>
+
+
+</html>
+{% endblock %}
+
